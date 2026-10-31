@@ -1,0 +1,14 @@
+services:
+  server:
+    build: .
+    command: python -m src.main_server
+    ports:
+      - "8080:8080"
+    env_file: .env
+    restart: unless-stopped
+
+  controller:
+    build: .
+    command: python -m src.main_controller
+    env_file: .env
+    restart: unless-stopped
