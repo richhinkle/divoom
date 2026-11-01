@@ -22,7 +22,7 @@ def get_next_launch() -> dict:
 
     try:
         url = (
-            f"https://ll2.thespacedevs.com/2.3.0/launches/upcoming/"
+            f"https://lldev.thespacedevs.com/2.3.0/launches/upcoming/"
             f"?location__ids={_LOCATION_ID}&limit=1&format=json"
         )
         resp = requests.get(url, timeout=10)
