@@ -4,7 +4,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-def get_lock_states(ha_url: str, ha_token: str, entities: list[str]) -> dict[str, str]:
+def get_lock_states(ha_url: str, ha_token: str, entities: list[str], names: dict[str, str] | None = None) -> dict[str, str]:
     if not ha_url or not entities:
         return {}
 
@@ -20,7 +20,7 @@ def get_lock_states(ha_url: str, ha_token: str, entities: list[str]) -> dict[str
             )
             resp.raise_for_status()
             state = resp.json().get("state", "unknown").upper()
-            key = entity.removeprefix("lock.")
+            key = (names or {}).get(entity) or entity.removeprefix("lock.")
             result[key] = state
         except Exception as e:
             logger.warning("Failed to fetch lock state for %s: %s", entity, e)

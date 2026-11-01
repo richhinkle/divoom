@@ -17,6 +17,7 @@ class Config:
     ha_url: str
     ha_token: str
     ha_lock_entities: list[str]
+    ha_lock_names: dict[str, str]  # entity_id -> display key
     launch_location_id: int
     weather_location: str
 
@@ -24,6 +25,12 @@ class Config:
 def load_config() -> Config:
     entities_raw = os.getenv("HA_LOCK_ENTITIES", "")
     entities = [e.strip() for e in entities_raw.split(",") if e.strip()]
+    names_raw = os.getenv("HA_LOCK_NAMES", "")
+    names = {}
+    for pair in names_raw.split(","):
+        if "=" in pair:
+            k, v = pair.split("=", 1)
+            names[k.strip()] = v.strip()
     return Config(
         timeframe_ip=os.getenv("TIMEFRAME_IP", "192.168.1.25"),
         timeframe_token=int(os.getenv("TIMEFRAME_TOKEN", "639954")),
@@ -35,6 +42,7 @@ def load_config() -> Config:
         ha_url=os.getenv("HA_URL", ""),
         ha_token=os.getenv("HA_TOKEN", ""),
         ha_lock_entities=entities,
+        ha_lock_names=names,
         launch_location_id=int(os.getenv("LAUNCH_LOCATION_ID", "12")),
         weather_location=os.getenv("WEATHER_LOCATION", "Oviedo,FL"),
     )
