@@ -24,7 +24,7 @@ def run(config: Config) -> None:
     while True:
         # Show analog clock
         try:
-            send_command(ip, token, {"Command": "Channel/SetClockSelectId", "ClockId": 570})
+            send_command(ip, token, {"Command": "Channel/SetClockSelectId", "ClockId": 231})
         except Exception as e:
             logger.error("Failed to set clock: %s — retrying in 30s", e)
             time.sleep(30)
